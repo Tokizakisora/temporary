@@ -1,0 +1,2409 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>江戶四十八手｜姿態圖解</title>
+<style>
+  :root {
+    color-scheme: dark;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    color: #f2e9d5;
+    background: #151f24;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  main { width: min(100% - 32px, 1280px); margin: 32px auto; }
+  canvas { display: block; width: 100%; height: auto; background: #1d2a2f; }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 0;
+  }
+  button, select {
+    background: #24343a;
+    border: 1px solid #597072;
+    border-radius: 6px;
+    color: inherit;
+    min-height: 42px;
+    padding: 0 13px;
+    font: inherit;
+  }
+  button:enabled { cursor: pointer; }
+  button:disabled { opacity: .66; }
+  :focus-visible { outline: 2px solid #e4b778; outline-offset: 3px; }
+  input[type="range"] { flex: 1 1 180px; accent-color: #e4b778; cursor: pointer; }
+  output { font-variant-numeric: tabular-nums; min-width: 94px; font-size: .9rem; }
+  #export-status:empty { display: none; }
+  #export-status { color: #e4b778; margin: 0 0 12px; }
+  details { color: #cbd3cf; font-size: 0.95rem; line-height: 1.7; }
+  details a { color: #f2d4a8; }
+  @media (max-width: 520px) {
+    main { width: calc(100% - 20px); margin: 10px auto 20px; }
+    select { flex: 1; max-width: calc(100% - 84px); }
+    #position { order: 3; min-width: 0; flex-basis: 50%; }
+    #time { order: 4; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <canvas id="film" width="1280" height="720" aria-label="江戶四十八手姿態圖解，配有逐式字幕"></canvas>
+  <div class="controls" aria-label="影片控制">
+    <button id="play" type="button">播放</button>
+    <select id="chapters" aria-label="跳至指定條目"></select>
+    <input id="position" type="range" min="0" value="0" step="any" aria-label="影片進度">
+    <output id="time" for="position" aria-hidden="true"></output>
+    <button id="export" type="button">重新渲染 MP4</button>
+  </div>
+  <p id="export-status" role="status"></p>
+  <details>
+    <summary>版本與資料來源</summary>
+    <p>採用春風社 2005 年版《愛妻切紙四十八手》的前 48 個條目。圖解與說明由本片重新繪製與編寫。不同出版版本的名稱和圖式各有差異。</p>
+    <ul>
+      <li><a href="https://www.shumpu.com/portfolio/113/">春風社《愛妻切紙四十八手》書目與目次</a></li>
+      <li><a href="https://www.ccma-net.jp/collection/works/6682/">千葉市美術館所藏菱川師宣《恋の睦言四十八手》（1679）</a></li>
+      <li><a href="https://www.locoperi.jp/kimochi/48te/">Locoperi 的現代姿態釋例</a></li>
+    </ul>
+  </details>
+</main>
+<script id="film-data" type="application/json">[
+  {
+    "name": "網代本手",
+    "reading": "あじろほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺屈膝",
+    "b": "跪姿前傾",
+    "detail": "甲仰躺屈膝，乙朝甲前傾。",
+    "support": "甲的背部貼墊，乙以雙臂和膝蓋支撐。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1
+      },
+      {
+        "base": "leanKneel",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "揚羽本手",
+    "reading": "あげはほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺收腿",
+    "b": "跪姿前傾",
+    "detail": "甲屈腿向內收，雙腳的位置更靠近。",
+    "support": "乙用手臂撐住上身，甲保持肩背放鬆。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            -15,
+            -14
+          ],
+          "farKnee": [
+            -12,
+            -18
+          ],
+          "foot": [
+            -21,
+            -40
+          ],
+          "farFoot": [
+            -30,
+            -28
+          ]
+        }
+      },
+      {
+        "base": "leanKneel",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "いかだ本手",
+    "reading": "いかだほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺伸腿",
+    "b": "俯身伸腿",
+    "detail": "兩人的腿都伸長，上身近乎平行。",
+    "support": "甲的背部貼墊，乙由前臂分擔重量。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            15,
+            29
+          ],
+          "farKnee": [
+            16,
+            29
+          ],
+          "foot": [
+            28,
+            0
+          ],
+          "farFoot": [
+            25,
+            0
+          ]
+        }
+      },
+      {
+        "base": "prone",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "せきれい本手",
+    "reading": "せきれいほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "墊高腰部",
+    "b": "挺身跪姿",
+    "detail": "甲仰躺，腰下墊高，乙跪姿略起身。",
+    "support": "甲的肩背留在墊上，乙以雙膝承重。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "hip": [
+            0,
+            -13
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "ことぶき本手",
+    "reading": "ことぶきほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺舉單腿",
+    "b": "跪姿托腿",
+    "detail": "甲仰躺抬一腿，乙跪在相對方向。",
+    "support": "甲的背部貼墊，乙的膝蓋維持穩定。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            12,
+            -21
+          ],
+          "foot": [
+            9,
+            -52
+          ],
+          "farKnee": [
+            15,
+            26
+          ],
+          "farFoot": [
+            20,
+            0
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "hand": [
+            18,
+            -13
+          ],
+          "elbow": [
+            -1,
+            -10
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "洞入り本手",
+    "reading": "ほらいりほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺外展膝",
+    "b": "直身跪姿",
+    "detail": "甲雙膝朝外，乙的上身保持直立。",
+    "support": "甲讓腿停在舒服的角度，乙以雙膝承重。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            14,
+            17
+          ],
+          "farKnee": [
+            -14,
+            23
+          ],
+          "foot": [
+            8,
+            -1
+          ],
+          "farFoot": [
+            -8,
+            -1
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "笹舟本手",
+    "reading": "ささぶねほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺抱膝",
+    "b": "跪姿前傾",
+    "detail": "甲將膝蓋靠向胸前，身體像小舟。",
+    "support": "甲的背部貼墊，屈膝幅度依舒適度調整。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            -42,
+            -29
+          ],
+          "farKnee": [
+            -37,
+            -34
+          ],
+          "foot": [
+            -9,
+            -37
+          ],
+          "farFoot": [
+            -15,
+            -27
+          ],
+          "elbow": [
+            3,
+            -25
+          ],
+          "hand": [
+            14,
+            -34
+          ],
+          "farElbow": [
+            6,
+            -21
+          ],
+          "farHand": [
+            14,
+            -34
+          ]
+        }
+      },
+      {
+        "base": "leanKneel",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "深山本手",
+    "reading": "みやまほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺抬雙腿",
+    "b": "雙膝跪姿",
+    "detail": "甲仰躺抬起雙腿，乙跪姿朝向甲。",
+    "support": "抬腿時保留頸肩空間，有拉扯就放低。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            13,
+            -34
+          ],
+          "farKnee": [
+            7,
+            -44
+          ],
+          "foot": [
+            14,
+            -72
+          ],
+          "farFoot": [
+            8,
+            -81
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "hand": [
+            16,
+            -22
+          ],
+          "farHand": [
+            12,
+            -19
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "入船本手",
+    "reading": "いりふねほんて",
+    "chapter": "仰躺與坐姿",
+    "a": "仰躺屈腿",
+    "b": "屈膝坐姿",
+    "detail": "甲仰躺，乙屈膝坐在甲足側。",
+    "support": "甲由墊面托住肩背，乙以坐面承重。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "hip": [
+            3,
+            -9
+          ],
+          "knee": [
+            2,
+            -14
+          ],
+          "foot": [
+            -13,
+            -16
+          ]
+        }
+      },
+      {
+        "base": "cross",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "唐草居茶臼",
+    "reading": "からくさいちゃうす",
+    "chapter": "仰躺與坐姿",
+    "a": "屈膝對坐",
+    "b": "伸腿後撐",
+    "detail": "兩人對坐，一人伸腿，一人屈膝。",
+    "support": "乙的手放在身後，協助穩住上身。",
+    "poses": [
+      {
+        "base": "sit",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            8,
+            -8
+          ],
+          "foot": [
+            9,
+            -2
+          ]
+        }
+      },
+      {
+        "base": "recline",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            9,
+            8
+          ],
+          "foot": [
+            22,
+            0
+          ],
+          "farKnee": [
+            12,
+            8
+          ],
+          "farFoot": [
+            22,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "忍び居茶臼",
+    "reading": "しのびいちゃうす",
+    "chapter": "仰躺與坐姿",
+    "a": "屈膝對坐",
+    "b": "盤腿坐",
+    "detail": "兩人面對面坐，乙盤腿，甲屈膝。",
+    "support": "讓坐面接住重量，雙腳可找穩定支點。",
+    "poses": [
+      {
+        "base": "sit",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            7,
+            -13
+          ],
+          "foot": [
+            -8,
+            0
+          ]
+        }
+      },
+      {
+        "base": "cross",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "濱千鳥",
+    "reading": "はまちどり",
+    "chapter": "側躺與交叉",
+    "a": "仰躺屈單膝",
+    "b": "側躺",
+    "detail": "甲仰躺屈起一膝，乙從旁側躺。",
+    "support": "甲的背部貼墊，乙的肩與髖由墊面承托。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            12,
+            -5
+          ],
+          "farKnee": [
+            16,
+            26
+          ],
+          "farFoot": [
+            18,
+            0
+          ]
+        }
+      },
+      {
+        "base": "side",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "横笛",
+    "reading": "よこぶえ",
+    "chapter": "側躺與交叉",
+    "a": "側躺抬腿",
+    "b": "跪姿托腿",
+    "detail": "甲側躺抬上側腿，乙跪姿用手托住。",
+    "support": "把腿托在舒服的高度，避免勉強拉開。",
+    "poses": [
+      {
+        "base": "side",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            11,
+            -23
+          ],
+          "foot": [
+            13,
+            -49
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "hand": [
+            16,
+            -18
+          ],
+          "elbow": [
+            0,
+            -12
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "こぼれ松葉",
+    "reading": "こぼれまつば",
+    "chapter": "側躺與交叉",
+    "a": "面向乙側躺",
+    "b": "面向甲側躺",
+    "detail": "兩人側躺相對，雙方的腿在中間交錯。",
+    "support": "各自把重量交給墊面，讓膝蓋自然彎曲。",
+    "poses": [
+      {
+        "base": "side",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            17,
+            0
+          ],
+          "foot": [
+            25,
+            2
+          ],
+          "farFoot": [
+            8,
+            -8
+          ]
+        }
+      },
+      {
+        "base": "side",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            16,
+            -6
+          ],
+          "foot": [
+            22,
+            -16
+          ],
+          "farKnee": [
+            15,
+            0
+          ],
+          "farFoot": [
+            18,
+            6
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "菊一文字",
+    "reading": "きくいちもんじ",
+    "chapter": "側躺與交叉",
+    "a": "側躺微屈腿",
+    "b": "斜向側躺",
+    "detail": "甲側躺微屈腿，乙從足側斜向靠近。",
+    "support": "留意兩人的肩與髖都有墊面承托。",
+    "poses": [
+      {
+        "base": "side",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            -8,
+            5
+          ],
+          "farKnee": [
+            -14,
+            8
+          ],
+          "foot": [
+            1,
+            0
+          ],
+          "farFoot": [
+            -1,
+            0
+          ]
+        }
+      },
+      {
+        "base": "side",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            13,
+            10
+          ],
+          "farKnee": [
+            12,
+            7
+          ],
+          "foot": [
+            27,
+            -3
+          ],
+          "farFoot": [
+            20,
+            -9
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "浮橋",
+    "reading": "うきはし",
+    "chapter": "側躺與交叉",
+    "a": "側躺彎上腿",
+    "b": "相對側躺",
+    "detail": "兩人相對側躺，甲的上側腿彎向乙。",
+    "support": "兩人的側身都靠墊，抬腿保持自然。",
+    "poses": [
+      {
+        "base": "side",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            10,
+            -13
+          ],
+          "foot": [
+            17,
+            -27
+          ]
+        }
+      },
+      {
+        "base": "side",
+        "facing": -1,
+        "adjust": {
+          "farKnee": [
+            10,
+            5
+          ],
+          "farFoot": [
+            15,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "八重椿",
+    "reading": "やえつばき",
+    "chapter": "側躺與交叉",
+    "a": "仰躺舉單腿",
+    "b": "斜向跪姿",
+    "detail": "甲仰躺一腿抬起、一腿伸直，乙斜跪。",
+    "support": "甲的背部貼墊，乙雙膝承重並輕托腿。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            17,
+            -12
+          ],
+          "foot": [
+            20,
+            -35
+          ],
+          "farKnee": [
+            21,
+            29
+          ],
+          "farFoot": [
+            24,
+            0
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "head": [
+            6,
+            -3
+          ],
+          "shoulder": [
+            7,
+            -1
+          ],
+          "hand": [
+            21,
+            -12
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "つばめ返し",
+    "reading": "つばめがえし",
+    "chapter": "側躺與交叉",
+    "a": "側躺舉上腿",
+    "b": "斜向跪姿",
+    "detail": "與八重椿相比，甲改為側躺抬腿。",
+    "support": "甲側身貼墊，乙托住上側腿以維持高度。",
+    "poses": [
+      {
+        "base": "side",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            1,
+            -28
+          ],
+          "foot": [
+            13,
+            -66
+          ],
+          "farKnee": [
+            19,
+            10
+          ],
+          "farFoot": [
+            23,
+            0
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "hand": [
+            17,
+            -20
+          ],
+          "farHand": [
+            12,
+            -15
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "万字くづし",
+    "reading": "まんじくずし",
+    "chapter": "側躺與交叉",
+    "a": "後撐半坐",
+    "b": "跪姿托腿",
+    "detail": "甲用一手後撐起身，乙跪姿托住一腿。",
+    "support": "甲的手腕和乙的膝蓋各自分擔重量。",
+    "poses": [
+      {
+        "base": "recline",
+        "facing": 1,
+        "adjust": {
+          "shoulder": [
+            4,
+            -10
+          ],
+          "head": [
+            6,
+            -12
+          ],
+          "knee": [
+            11,
+            -27
+          ],
+          "foot": [
+            4,
+            -57
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "hand": [
+            20,
+            -18
+          ],
+          "elbow": [
+            9,
+            -12
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "出船うしろ取り",
+    "reading": "でふねうしろどり",
+    "chapter": "同向與後側",
+    "a": "手膝著墊",
+    "b": "同向跪姿",
+    "detail": "甲以手和膝撐墊，乙在後側同向跪。",
+    "support": "甲的手在肩下，膝蓋可加軟墊。",
+    "poses": [
+      {
+        "base": "allFours",
+        "facing": -1
+      },
+      {
+        "base": "kneel",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "つぶし駒掛け",
+    "reading": "つぶしこまかけ",
+    "chapter": "同向與後側",
+    "a": "俯躺伸腿",
+    "b": "同向前臂撐",
+    "detail": "甲改為俯躺，乙由後側同向前傾。",
+    "support": "乙用前臂支住上身，讓胸背保有空間。",
+    "poses": [
+      {
+        "base": "prone",
+        "facing": -1
+      },
+      {
+        "base": "leanKneel",
+        "facing": -1,
+        "adjust": {
+          "head": [
+            10,
+            13
+          ],
+          "shoulder": [
+            14,
+            20
+          ],
+          "elbow": [
+            11,
+            15
+          ],
+          "hand": [
+            17,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "本駒掛け",
+    "reading": "ほんこまかけ",
+    "chapter": "同向與後側",
+    "a": "低坐前撐",
+    "b": "同向跪坐",
+    "detail": "甲低坐且雙手向前，乙在後方跪坐。",
+    "support": "甲的手與乙的雙膝分別找到穩定支點。",
+    "poses": [
+      {
+        "base": "crouch",
+        "facing": -1,
+        "adjust": {
+          "hand": [
+            19,
+            16
+          ],
+          "farHand": [
+            16,
+            15
+          ],
+          "elbow": [
+            12,
+            10
+          ]
+        }
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "hip": [
+            -12,
+            15
+          ],
+          "shoulder": [
+            -12,
+            12
+          ],
+          "head": [
+            -12,
+            10
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "〆込み錦",
+    "reading": "しめこみにしき",
+    "chapter": "同向與後側",
+    "a": "同向低坐",
+    "b": "伸腿坐姿",
+    "detail": "甲坐在前側，乙在後側伸腿坐。",
+    "support": "甲可把手放在前方，乙用自己的坐面承重。",
+    "poses": [
+      {
+        "base": "sit",
+        "facing": -1,
+        "adjust": {
+          "hand": [
+            12,
+            12
+          ],
+          "farHand": [
+            9,
+            8
+          ]
+        }
+      },
+      {
+        "base": "recline",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            12,
+            10
+          ],
+          "foot": [
+            24,
+            0
+          ],
+          "farKnee": [
+            12,
+            9
+          ],
+          "farFoot": [
+            22,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "〆込み千鳥",
+    "reading": "しめこみちどり",
+    "chapter": "同向與後側",
+    "a": "朝乙足側坐",
+    "b": "仰躺",
+    "detail": "乙仰躺，甲的上身朝向乙的腳。",
+    "support": "乙的背部貼墊，甲的腿提供穩定支撐。",
+    "poses": [
+      {
+        "base": "perch",
+        "facing": -1
+      },
+      {
+        "base": "supine",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "うしろ櫓",
+    "reading": "うしろやぐら",
+    "chapter": "同向與後側",
+    "a": "後方站立",
+    "b": "站姿前傾",
+    "detail": "兩人同向站立，前方一人上身前傾。",
+    "support": "前方以雙手支撐，兩人各自站穩。",
+    "poses": [
+      {
+        "base": "stand",
+        "facing": 1
+      },
+      {
+        "base": "stand",
+        "facing": 1,
+        "adjust": {
+          "head": [
+            46,
+            30
+          ],
+          "shoulder": [
+            36,
+            23
+          ],
+          "elbow": [
+            38,
+            5
+          ],
+          "hand": [
+            56,
+            -16
+          ],
+          "farElbow": [
+            34,
+            7
+          ],
+          "farHand": [
+            50,
+            -13
+          ],
+          "hip": [
+            -7,
+            1
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "亂れぼたん",
+    "reading": "みだれぼたん",
+    "chapter": "同向與後側",
+    "a": "盤腿坐",
+    "b": "屈膝後倚",
+    "detail": "兩人同向坐，前方一人把背靠向後方。",
+    "support": "後方以盤腿坐穩，前方上身略向後倚。",
+    "poses": [
+      {
+        "base": "cross",
+        "facing": 1
+      },
+      {
+        "base": "sit",
+        "facing": 1,
+        "adjust": {
+          "head": [
+            -25,
+            12
+          ],
+          "shoulder": [
+            -21,
+            7
+          ],
+          "knee": [
+            8,
+            -17
+          ],
+          "farKnee": [
+            16,
+            -12
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "本茶臼",
+    "reading": "ほんちゃうす",
+    "chapter": "坐姿與支撐",
+    "a": "坐姿迎向對方",
+    "b": "跨坐前靠",
+    "detail": "兩人面對面坐，上身靠近成擁抱姿勢。",
+    "support": "一人坐穩，另一人屈膝跨坐。",
+    "poses": [
+      {
+        "base": "sit",
+        "facing": 1,
+        "adjust": {
+          "head": [
+            10,
+            0
+          ],
+          "shoulder": [
+            8,
+            2
+          ],
+          "elbow": [
+            20,
+            -9
+          ],
+          "hand": [
+            29,
+            -23
+          ],
+          "farHand": [
+            22,
+            -17
+          ]
+        }
+      },
+      {
+        "base": "perch",
+        "facing": -1,
+        "adjust": {
+          "head": [
+            14,
+            5
+          ],
+          "shoulder": [
+            10,
+            4
+          ],
+          "elbow": [
+            22,
+            -8
+          ],
+          "hand": [
+            31,
+            -21
+          ],
+          "farHand": [
+            24,
+            -17
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "いかだ茶臼",
+    "reading": "いかだちゃうす",
+    "chapter": "坐姿與支撐",
+    "a": "仰躺伸腿",
+    "b": "俯身伸腿",
+    "detail": "一人仰躺、一人俯身，雙方的腿伸長。",
+    "support": "從側面看，兩人的身體如筏般平行。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            15,
+            21
+          ],
+          "foot": [
+            9,
+            0
+          ],
+          "farKnee": [
+            7,
+            18
+          ],
+          "farFoot": [
+            10,
+            0
+          ]
+        }
+      },
+      {
+        "base": "prone",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "時雨茶臼",
+    "reading": "しぐれちゃうす",
+    "chapter": "坐姿與支撐",
+    "a": "仰躺",
+    "b": "屈膝跨坐",
+    "detail": "一人仰躺，另一人面向對方屈膝跨坐。",
+    "support": "上方以膝支撐，上身大致直立。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1
+      },
+      {
+        "base": "kneel",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "機織茶臼",
+    "reading": "はたおりちゃうす",
+    "chapter": "坐姿與支撐",
+    "a": "仰躺",
+    "b": "跨坐微後傾",
+    "detail": "跨坐者上身微向後傾，像操作織機。",
+    "support": "跨坐者的手多落向身體後側支撐。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1
+      },
+      {
+        "base": "kneel",
+        "facing": -1,
+        "adjust": {
+          "head": [
+            -39,
+            7
+          ],
+          "shoulder": [
+            -27,
+            4
+          ],
+          "elbow": [
+            -31,
+            14
+          ],
+          "hand": [
+            -52,
+            26
+          ],
+          "farElbow": [
+            -27,
+            13
+          ],
+          "farHand": [
+            -47,
+            21
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "御所車",
+    "reading": "ごしょぐるま",
+    "chapter": "坐姿與支撐",
+    "a": "仰躺立膝",
+    "b": "跨坐後倚",
+    "detail": "跨坐者略後倚，另一人的屈膝如靠背。",
+    "support": "辨識重點在立起的雙膝與後倚的上身。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            -9,
+            -25
+          ],
+          "farKnee": [
+            -6,
+            -22
+          ],
+          "foot": [
+            -11,
+            0
+          ],
+          "farFoot": [
+            -6,
+            0
+          ]
+        }
+      },
+      {
+        "base": "recline",
+        "facing": -1,
+        "adjust": {
+          "head": [
+            9,
+            -12
+          ],
+          "shoulder": [
+            6,
+            -6
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "月見茶臼",
+    "reading": "つきみちゃうす",
+    "chapter": "坐姿與支撐",
+    "a": "仰躺",
+    "b": "背向後倚",
+    "detail": "跨坐者先背向對方，上身向後靠。",
+    "support": "後倚時胸口轉向上方，有如仰望月亮。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1
+      },
+      {
+        "base": "recline",
+        "facing": 1,
+        "adjust": {
+          "head": [
+            -29,
+            8
+          ],
+          "shoulder": [
+            -19,
+            8
+          ],
+          "elbow": [
+            -11,
+            5
+          ],
+          "farElbow": [
+            -10,
+            3
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "寶船",
+    "reading": "たからふね",
+    "chapter": "坐姿與支撐",
+    "a": "挺身跪立",
+    "b": "仰躺單腿抬高",
+    "detail": "一人挺身跪立，另一人仰躺抬起一腿。",
+    "support": "抬起的腿靠近對方肩側，輪廓像船帆。",
+    "poses": [
+      {
+        "base": "kneel",
+        "facing": 1,
+        "adjust": {
+          "elbow": [
+            16,
+            -9
+          ],
+          "hand": [
+            21,
+            -30
+          ],
+          "farHand": [
+            13,
+            -20
+          ]
+        }
+      },
+      {
+        "base": "supine",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            -12,
+            -43
+          ],
+          "foot": [
+            -28,
+            -76
+          ],
+          "farKnee": [
+            10,
+            18
+          ],
+          "farFoot": [
+            7,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "空竹割",
+    "reading": "からたけわり",
+    "chapter": "坐姿與支撐",
+    "a": "跪姿扶持",
+    "b": "一腿上舉",
+    "detail": "仰躺者一腿往上伸，另一腿留在下方。",
+    "support": "上舉角度較大，辨識時觀察髖部位置。",
+    "poses": [
+      {
+        "base": "kneel",
+        "facing": 1,
+        "adjust": {
+          "elbow": [
+            24,
+            -8
+          ],
+          "hand": [
+            33,
+            -16
+          ],
+          "farElbow": [
+            18,
+            -6
+          ],
+          "farHand": [
+            29,
+            -12
+          ]
+        }
+      },
+      {
+        "base": "supine",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            -40,
+            -41
+          ],
+          "foot": [
+            -73,
+            -91
+          ],
+          "farKnee": [
+            9,
+            19
+          ],
+          "farFoot": [
+            8,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "しがらみ",
+    "reading": "しがらみ",
+    "chapter": "坐姿與支撐",
+    "a": "俯身外側",
+    "b": "仰躺併腿",
+    "detail": "仰躺者雙腿併攏，另一人的腿在外側。",
+    "support": "俯身者用手臂承托自身重量。",
+    "poses": [
+      {
+        "base": "prone",
+        "facing": -1,
+        "adjust": {
+          "head": [
+            0,
+            -10
+          ],
+          "shoulder": [
+            1,
+            -13
+          ],
+          "elbow": [
+            2,
+            -6
+          ],
+          "hand": [
+            7,
+            0
+          ],
+          "farElbow": [
+            -1,
+            -5
+          ],
+          "farHand": [
+            -7,
+            0
+          ]
+        }
+      },
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            13,
+            21
+          ],
+          "foot": [
+            6,
+            0
+          ],
+          "farKnee": [
+            14,
+            19
+          ],
+          "farFoot": [
+            6,
+            1
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "いかだくづし",
+    "reading": "いかだくずし",
+    "chapter": "坐姿與支撐",
+    "a": "俯身伸腿",
+    "b": "仰躺交疊足踝",
+    "detail": "兩人伸腿，仰躺者的足踝交疊。",
+    "support": "和併腿式相比，區別在足踝的交叉。",
+    "poses": [
+      {
+        "base": "prone",
+        "facing": -1
+      },
+      {
+        "base": "supine",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            12,
+            18
+          ],
+          "foot": [
+            5,
+            1
+          ],
+          "farKnee": [
+            8,
+            14
+          ],
+          "farFoot": [
+            26,
+            -9
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "廓つなぎ",
+    "reading": "くるわつなぎ",
+    "chapter": "坐姿與支撐",
+    "a": "面對對方後撐",
+    "b": "面對對方後撐",
+    "detail": "兩人相向坐，從上方看雙腿形成交叉。",
+    "support": "各自把手放在身後，支撐後傾的上身。",
+    "poses": [
+      {
+        "base": "recline",
+        "facing": 1,
+        "adjust": {
+          "knee": [
+            15,
+            10
+          ],
+          "foot": [
+            11,
+            0
+          ]
+        }
+      },
+      {
+        "base": "recline",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            15,
+            10
+          ],
+          "foot": [
+            11,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "かげろう",
+    "reading": "かげろう",
+    "chapter": "坐姿與支撐",
+    "a": "仰躺",
+    "b": "手膝懸撐",
+    "detail": "一人仰躺，另一人以手和膝撐起身體。",
+    "support": "上方軀幹懸空，重量落在手和膝。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1
+      },
+      {
+        "base": "allFours",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "きぬた",
+    "reading": "きぬた",
+    "chapter": "坐姿與支撐",
+    "a": "向外手膝著地",
+    "b": "向外手膝著地",
+    "detail": "兩人背向彼此，手膝著地，髖部靠近。",
+    "support": "各自以手膝支撐，觀察身體相反的朝向。",
+    "poses": [
+      {
+        "base": "allFours",
+        "facing": -1
+      },
+      {
+        "base": "allFours",
+        "facing": 1
+      }
+    ]
+  },
+  {
+    "name": "狂い獅子",
+    "reading": "くるいしし",
+    "chapter": "坐姿與支撐",
+    "a": "仰躺",
+    "b": "跨坐向後反弓",
+    "detail": "一人仰躺，另一人跨坐後大幅向後仰。",
+    "support": "反弓者以手後撐，腰背承受較大負荷。",
+    "poses": [
+      {
+        "base": "supine",
+        "facing": 1
+      },
+      {
+        "base": "backbend",
+        "facing": -1
+      }
+    ]
+  },
+  {
+    "name": "花菱ぜめ",
+    "reading": "はなびしぜめ",
+    "chapter": "方向與構圖",
+    "a": "甲單向朝乙",
+    "b": "乙仰躺",
+    "detail": "口部親密接觸的一種，方向由甲朝乙。",
+    "support": "乙採仰躺，和下一手的方向相反。",
+    "poses": null
+  },
+  {
+    "name": "尺八",
+    "reading": "しゃくはち",
+    "chapter": "方向與構圖",
+    "a": "甲坐或躺",
+    "b": "乙單向朝甲",
+    "detail": "口部親密接觸的一種，方向由乙朝甲。",
+    "support": "名稱借自日本傳統直吹竹笛。",
+    "poses": null
+  },
+  {
+    "name": "椋鳥",
+    "reading": "むくどり",
+    "chapter": "方向與構圖",
+    "a": "甲在上",
+    "b": "乙在下",
+    "detail": "雙向口部親密接觸，兩人頭腳相反。",
+    "support": "從側面看，甲在上、乙在下。",
+    "poses": null
+  },
+  {
+    "name": "白光錦",
+    "reading": "びゃっこうにしき",
+    "chapter": "方向與構圖",
+    "a": "甲用手",
+    "b": "乙接受觸碰",
+    "detail": "以手進行的親密接觸，方向由甲朝乙。",
+    "support": "這一手依觸碰方式分類，姿勢可變。",
+    "poses": null
+  },
+  {
+    "name": "さかさ椋鳥",
+    "reading": "さかさむくどり",
+    "chapter": "方向與構圖",
+    "a": "甲在下",
+    "b": "乙在上",
+    "detail": "雙向口部親密接觸，頭腳方向仍相反。",
+    "support": "與椋鳥相比，甲與乙交換上下位置。",
+    "poses": null
+  },
+  {
+    "name": "二ツ巴",
+    "reading": "ふたつどもえ",
+    "chapter": "方向與構圖",
+    "a": "甲側躺",
+    "b": "乙側躺",
+    "detail": "雙向口部親密接觸，彼此反向側躺。",
+    "support": "兩人位於同一平面，形似雙勾的巴紋。",
+    "poses": null
+  },
+  {
+    "name": "立鼎",
+    "reading": "たちかなえ",
+    "chapter": "站姿與托舉",
+    "a": "雙腳站立",
+    "b": "單腳站立",
+    "detail": "兩人相向，一人單腳站，另一腳抬起。",
+    "support": "三個落腳點像三足鼎，平衡要求較高。",
+    "poses": [
+      {
+        "base": "stand",
+        "facing": 1,
+        "adjust": {
+          "elbow": [
+            20,
+            -5
+          ],
+          "hand": [
+            33,
+            -16
+          ],
+          "farElbow": [
+            15,
+            -7
+          ],
+          "farHand": [
+            25,
+            -16
+          ]
+        }
+      },
+      {
+        "base": "stand",
+        "facing": -1,
+        "adjust": {
+          "knee": [
+            41,
+            -47
+          ],
+          "foot": [
+            54,
+            -66
+          ],
+          "elbow": [
+            16,
+            -10
+          ],
+          "hand": [
+            23,
+            -20
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "やぐら立ち",
+    "reading": "やぐらだち",
+    "chapter": "站姿與托舉",
+    "a": "站姿托舉",
+    "b": "雙腳離地",
+    "detail": "兩人相向，一人站立，另一人離地。",
+    "support": "重量由站立者承托，對腰、手臂負荷大。",
+    "poses": [
+      {
+        "base": "stand",
+        "facing": 1,
+        "adjust": {
+          "elbow": [
+            23,
+            -7
+          ],
+          "hand": [
+            31,
+            -13
+          ],
+          "farElbow": [
+            18,
+            -9
+          ],
+          "farHand": [
+            26,
+            -16
+          ]
+        }
+      },
+      {
+        "base": "lift",
+        "facing": -1
+      }
+    ]
+  }
+]</script>
+<script>
+'use strict';
+
+const entries = JSON.parse(document.querySelector('#film-data').textContent);
+const WIDTH = 1280;
+const HEIGHT = 720;
+const FPS = 24;
+const INTRO = 9;
+const CARD = 5;
+const OUTRO = 8;
+const DURATION = INTRO + entries.length * CARD + OUTRO;
+const TOTAL_FRAMES = DURATION * FPS;
+const palette = {
+  ink: '#1d2a2f', paper: '#f0e7d4', paperDim: '#e8dfca', soft: '#c7ccc0',
+  line: '#657373', gold: '#e2b471', rust: '#a24535', teal: '#246365',
+  rustPale: '#dcb2a2', tealPale: '#a9c9bf', darkText: '#293637'
+};
+const sans = '"Noto Sans TC", "Microsoft JhengHei", sans-serif';
+const serif = '"Noto Serif TC", "Noto Serif JP", "Yu Mincho", serif';
+const numbers = '"Georgia", serif';
+const joints = ['head', 'shoulder', 'hip', 'elbow', 'hand', 'farElbow', 'farHand',
+  'knee', 'foot', 'farKnee', 'farFoot'];
+
+// Each diagram uses local coordinates, with a shared floor line at y = 82.
+const poses = {
+  stand: [[0,-82],[-2,-48],[0,12],[23,-18],[31,8],[-19,-20],[-22,5],
+    [11,49],[18,82],[-10,49],[-16,82]],
+  supine: [[-90,62],[-56,69],[7,70],[-28,53],[-1,56],[-33,79],[-9,79],
+    [51,24],[86,81],[45,42],[100,81]],
+  prone: [[76,48],[47,62],[-12,70],[68,82],[99,82],[55,77],[83,78],
+    [-59,72],[-103,81],[-54,77],[-91,81]],
+  side: [[-87,56],[-52,61],[11,66],[-31,78],[-4,78],[-29,53],[-3,55],
+    [58,39],[94,76],[55,65],[101,80]],
+  sit: [[-25,-69],[-21,-36],[-13,37],[11,-7],[40,14],[-37,-1],[-47,47],
+    [47,44],[89,80],[31,53],[66,80]],
+  cross: [[-12,-68],[-11,-34],[-10,36],[18,-7],[42,21],[-33,-1],[-43,25],
+    [46,60],[-4,80],[-47,61],[27,80]],
+  kneel: [[2,-62],[1,-29],[-3,29],[22,-1],[39,23],[-19,-5],[-16,19],
+    [11,78],[-50,81],[-5,72],[-59,77]],
+  allFours: [[73,-10],[43,10],[-27,15],[52,47],[57,82],[30,49],[34,77],
+    [-38,78],[-88,82],[-54,73],[-95,79]],
+  leanKneel: [[49,-40],[21,-14],[-21,30],[58,24],[73,58],[34,26],[47,60],
+    [-19,78],[-68,81],[-44,73],[-86,78]],
+  recline: [[-60,-7],[-40,17],[9,66],[-67,47],[-77,81],[-47,53],[-52,79],
+    [52,23],[83,80],[48,45],[104,80]],
+  perch: [[-14,-68],[-11,-35],[-6,24],[13,-4],[31,19],[-26,-6],[-31,22],
+    [45,40],[42,80],[31,47],[20,80]],
+  crouch: [[16,-55],[-5,-25],[-31,22],[25,6],[45,35],[-11,4],[13,29],
+    [25,27],[43,82],[5,35],[0,82]],
+  backbend: [[-71,-21],[-44,-27],[-10,27],[-58,14],[-83,53],[-27,9],[-41,45],
+    [32,52],[24,81],[12,57],[6,81]],
+  lift: [[-20,-72],[-15,-39],[-2,22],[19,-9],[38,9],[-33,-1],[-41,27],
+    [46,16],[61,56],[32,32],[41,69]]
+};
+
+function clamp(value, low = 0, high = 1) {
+  return Math.max(low, Math.min(high, value));
+}
+
+function smooth(value) {
+  const x = clamp(value);
+  return x * x * (3 - 2 * x);
+}
+
+function mix(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function line(ctx, points, color, width = 1) {
+  ctx.beginPath();
+  ctx.moveTo(...points[0]);
+  for (const point of points.slice(1)) ctx.lineTo(...point);
+  ctx.lineWidth = width;
+  ctx.strokeStyle = color;
+  ctx.stroke();
+}
+
+function rect(ctx, x, y, w, h, fill, border, radius = 0) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, radius);
+  if (fill) {
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
+  if (border) {
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = border;
+    ctx.stroke();
+  }
+}
+
+function dot(ctx, x, y, r, fill, border) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  if (fill) {
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
+  if (border) {
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = border;
+    ctx.stroke();
+  }
+}
+
+function text(ctx, value, x, y, size, color = palette.paper, options = {}) {
+  const {font = sans, weight = 400, align = 'left', maxWidth} = options;
+  ctx.font = `${weight} ${size}px ${font}`;
+  ctx.textAlign = align;
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = color;
+  if (maxWidth) ctx.fillText(value, x, y, maxWidth);
+  else ctx.fillText(value, x, y);
+}
+
+function arrow(ctx, x, y, facing, color, length = 35) {
+  const end = x + length * facing;
+  line(ctx, [[x, y], [end, y]], color, 1.5);
+  line(ctx, [[end - 6 * facing, y - 5], [end, y], [end - 6 * facing, y + 5]],
+    color, 1.5);
+}
+
+const background = document.createElement('canvas');
+background.width = WIDTH;
+background.height = HEIGHT;
+const bg = background.getContext('2d');
+const tint = bg.createLinearGradient(0, 0, 1300, 700);
+tint.addColorStop(0, '#26373b');
+tint.addColorStop(1, '#182228');
+bg.fillStyle = tint;
+bg.fillRect(0, 0, WIDTH, HEIGHT);
+for (let x = -HEIGHT; x < WIDTH; x += 26) {
+  line(bg, [[x, HEIGHT], [x + HEIGHT, 0]], 'rgba(225,230,219,.023)');
+}
+
+function figure(ctx, cx, cy, pose, colors, movement, scale = 1.22) {
+  const stroke = colors[0];
+  const pale = colors[1];
+  const rig = poses[pose.base];
+  const points = Object.fromEntries(joints.map((key, index) => {
+    const [x, y] = rig[index];
+    const [dx, dy] = pose.adjust?.[key] ?? [0, 0];
+    const isLimb = ['elbow', 'hand', 'farElbow', 'farHand', 'knee', 'farKnee'].includes(key);
+    const initialOffset = isLimb ? 6 * (1 - movement) : 0;
+    return [key, [(x + dx - initialOffset) * pose.facing, y + dy + initialOffset * .65]];
+  }));
+  const p = points;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  const farStroke = colors[2];
+  line(ctx, [p.hip, p.farKnee, p.farFoot], farStroke, 13);
+  line(ctx, [p.shoulder, p.farElbow, p.farHand], farStroke, 11);
+  line(ctx, [p.hip, p.knee, p.foot], stroke, 15);
+  line(ctx, [p.foot, [p.foot[0] + 10 * pose.facing, p.foot[1]]], stroke, 10);
+  line(ctx, [p.shoulder, p.hip], stroke, 30);
+  line(ctx, [p.shoulder, p.elbow, p.hand], stroke, 13);
+  const neck = [mix(p.shoulder[0], p.head[0], .46), mix(p.shoulder[1], p.head[1], .46)];
+  line(ctx, [p.shoulder, neck], stroke, 13);
+  dot(ctx, p.head[0], p.head[1], 17, pale, stroke);
+  line(ctx, [[p.head[0] + pose.facing * 7, p.head[1] + 2],
+    [p.head[0] + pose.facing * 12, p.head[1] + 2]], stroke, 1.4);
+  dot(ctx, p.elbow[0], p.elbow[1], 3.4, pale);
+  dot(ctx, p.knee[0], p.knee[1], 3.7, pale);
+
+  // The small rings mark the joints or limbs set against the guide line.
+  const ringOpacity = .85 * smooth((movement - .55) / .45);
+  ctx.globalAlpha *= ringOpacity;
+  for (const key of ['foot', 'farFoot', 'knee', 'farKnee', 'hand', 'farHand', 'hip', 'shoulder']) {
+    const [x, y] = p[key];
+    if (y >= 77) dot(ctx, x, y, 5, pale, stroke);
+  }
+  ctx.restore();
+}
+
+const colorA = [palette.rust, palette.rustPale, '#c58470'];
+const colorB = [palette.teal, palette.tealPale, '#6b9b94'];
+const cardX = [68, 658];
+
+function symbolic(ctx, x, y, index, second, accent, movement) {
+  const centerX = x + 277;
+  const kind = index - 40;
+  const dir = second ? -1 : 1;
+  const bilateral = kind === 2 || kind >= 4;
+  const active = bilateral || (kind === 1 ? second : !second);
+  const stacked = kind === 2 || kind === 4;
+  const up = kind === 2 ? !second : second;
+  const centerY = y + (stacked ? (up ? 123 : 202) : 157);
+  const hand = kind === 3;
+  if (bilateral) {
+    const guides = stacked ? [y + 123, y + 202] : [centerY];
+    for (const guideY of guides) {
+      line(ctx, [[x + 152, guideY], [x + 402, guideY]], '#c2bbab');
+    }
+  }
+  ctx.save();
+  ctx.globalAlpha *= .8 + .2 * movement;
+  if (hand && active) {
+    rect(ctx, centerX - 22, centerY - 22, 44, 44, accent, null, 8);
+  } else {
+    dot(ctx, centerX, centerY, 25, active ? accent : null, accent);
+  }
+  if (active) {
+    const direction = stacked && kind === 4 ? -dir : dir;
+    arrow(ctx, centerX + (38 + 4 * movement) * direction, centerY, direction, accent, 35);
+  }
+  ctx.restore();
+}
+
+function drawPanel(ctx, entry, index, secondary, movement) {
+  const x = cardX[secondary ? 1 : 0];
+  const y = 223;
+  const w = 554;
+  const h = 295;
+  const colors = secondary ? colorB : colorA;
+  const accent = colors[0];
+  rect(ctx, x, y, w, h, secondary ? palette.paperDim : palette.paper, null, 4);
+  rect(ctx, x + 21, y + 19, 37, 37, accent, null, 2);
+  text(ctx, secondary ? '乙' : '甲', x + 39.5, y + 45, 20, '#fff9ed',
+    {align:'center', weight:700});
+  text(ctx, secondary ? entry.b : entry.a, x + 73, y + 45, 23, palette.darkText,
+    {maxWidth: w - 110, weight:600});
+  line(ctx, [[x + 22, y + 67], [x + w - 22, y + 67]], '#bdbaa9');
+
+  if (!entry.poses) {
+    symbolic(ctx, x, y, index, secondary, accent, movement);
+    return;
+  }
+  const pose = entry.poses[secondary ? 1 : 0];
+  const scale = ['stand', 'lift'].includes(pose.base) ? 1.05 : 1.14;
+  const floor = y + 265;
+  const baseY = floor - 82 * scale;
+  const guide = '#bfb9a7';
+  line(ctx, [[x + 142, floor + 2], [x + w - 142, floor + 2]], guide);
+  line(ctx, [[x + 142, floor - 2], [x + 142, floor + 6]], guide);
+  line(ctx, [[x + w - 142, floor - 2], [x + w - 142, floor + 6]], guide);
+  figure(ctx, x + w / 2, baseY + 6 * (1 - movement), pose, colors, movement, scale);
+}
+
+const GROUPS = [...new Set(entries.map(entry => entry.chapter))];
+
+function drawHeader(ctx, chapter, counter) {
+  text(ctx, '江戶四十八手', 68, 56, 23, palette.paper, {font:serif, weight:700});
+  if (chapter) {
+    line(ctx, [[238, 36], [238, 56]], '#85918a');
+    text(ctx, chapter, 256, 55, 19, palette.soft);
+  }
+  if (counter) {
+    text(ctx, counter, 1212, 57, 26, palette.gold, {font:numbers, align:'right'});
+  }
+  line(ctx, [[68, 78], [1212, 78]], '#697875');
+}
+
+function drawEntry(ctx, entry, index, local, seconds) {
+  const number = String(index + 1).padStart(2, '0');
+  drawHeader(ctx, entry.chapter, `${number} / 48`);
+  const ease = smooth(local / .83);
+  const opacity = .74 + .26 * smooth(local / .24);
+  ctx.save();
+  ctx.translate(0, 7 * (1 - ease));
+  ctx.globalAlpha = opacity;
+  text(ctx, entry.name, 68, 152, 57, palette.paper, {font:serif, weight:700});
+  text(ctx, entry.reading, 70, 193, 24, palette.gold);
+  drawPanel(ctx, entry, index, false, ease);
+  drawPanel(ctx, entry, index, true, ease);
+  ctx.restore();
+
+  text(ctx, '構圖', 70, 575, 19, palette.gold, {weight:700});
+  text(ctx, entry.detail, 143, 578, 30, palette.paper, {maxWidth:1060});
+  text(ctx, '觀察', 70, 619, 19, palette.gold, {weight:700});
+  text(ctx, entry.support, 143, 621, 26, palette.soft, {maxWidth:1060});
+  drawProgress(ctx, seconds, index);
+}
+
+function drawProgress(ctx, seconds, activeIndex) {
+  const gap = 3;
+  const start = 68;
+  const w = (1144 - (entries.length - 1) * gap) / entries.length;
+  const local = clamp((seconds - INTRO - activeIndex * CARD) / CARD);
+  for (let i = 0; i < entries.length; i++) {
+    const x = start + i * (w + gap);
+    const fill = i < activeIndex ? '#96856b' : '#516065';
+    rect(ctx, x, 665, w, 4, fill, null, 1);
+    if (i === activeIndex) rect(ctx, x, 665, Math.max(w * local, 2), 4, palette.gold, null, 1);
+  }
+}
+
+function drawIntro(ctx, seconds) {
+  text(ctx, '江戶圖像文化', 68, 56, 23, palette.paper, {font:serif, weight:700});
+  line(ctx, [[68, 78], [1212, 78]], '#697875');
+  const movement = smooth(seconds / 1.5);
+  text(ctx, '姿態圖解', 70, 168, 24, palette.gold, {weight:600});
+  text(ctx, '江戶', 62, 305, 112, palette.paper, {font:serif, weight:700});
+  text(ctx, '四十八手', 60, 426, 112, palette.paper, {font:serif, weight:700});
+  line(ctx, [[70, 470], [604, 470]], '#75837e');
+  text(ctx, '江戶時代的四十八手春畫也描繪相遇與離別。', 70, 523, 24, palette.paper);
+  text(ctx, '本片選用春風社 2005 年版的四十八個條目。', 70, 567, 24, palette.soft);
+  text(ctx, '以甲、乙兩格閱讀姿態與支撐。', 70, 611, 24, palette.soft);
+
+  ctx.save();
+  ctx.translate(0, 9 * (1 - movement));
+  const frameX = 680;
+  const frameY = 137;
+  rect(ctx, frameX, frameY, 530, 461, palette.paper, null, 4);
+  rect(ctx, frameX + 16, frameY + 16, 498, 429, null, '#9d9b88', 2);
+  line(ctx, [[945, 195], [945, 534]], '#c6bba8');
+  for (const position of [819,1070]) {
+    ctx.beginPath();
+    ctx.arc(position, 345, 104 + 4 * (1 - movement), 0, Math.PI * 2);
+    ctx.strokeStyle = '#c9bda9';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    line(ctx, [[position - 104, 450], [position + 104, 450]], '#c6bba8');
+  }
+  figure(ctx, 819, 363, {base:'supine', facing:1}, colorA, movement, 1.05);
+  figure(ctx, 1070, 363, {base:'kneel', facing:-1}, colorB, movement, 1.05);
+  text(ctx, '甲', 819, 520, 27, palette.rust, {align:'center', weight:700});
+  text(ctx, '乙', 1070, 520, 27, palette.teal, {align:'center', weight:700});
+  ctx.restore();
+  line(ctx, [[68, 665], [1212, 665]], '#697875');
+}
+
+function drawOutro(ctx) {
+  drawHeader(ctx, '版本與閱讀', '48 / 48');
+  text(ctx, '讀懂四十八手', 68, 177, 61, palette.paper, {font:serif, weight:700});
+  text(ctx, '先看方向，再看各自的支撐點。', 70, 241, 30, palette.soft);
+  const counts = GROUPS.map(chapter => entries.filter(entry => entry.chapter === chapter).length);
+  let first = 1;
+  GROUPS.forEach((chapter, index) => {
+    const x = 68 + index % 3 * 389;
+    const y = 295 + Math.floor(index / 3) * 84;
+    rect(ctx, x, y, 366, 64, '#2b3d42', '#617574', 4);
+    text(ctx, chapter, x + 18, y + 40, 24, palette.paper, {weight:600});
+    const last = first + counts[index] - 1;
+    text(ctx, `${String(first).padStart(2,'0')}–${String(last).padStart(2,'0')}`,
+      x + 345, y + 40, 23, palette.gold, {font:numbers, align:'right'});
+    first = last + 1;
+  });
+  const noteY = GROUPS.length > 6 ? 571 : 506;
+  text(ctx, '親密互動需要彼此同意。若出現疼痛或不適，先停下。', 70, noteY, 23, palette.soft);
+  text(ctx, '名稱來源：春風社《愛妻切紙四十八手》（2005）', 70, noteY + 41, 22, palette.gold);
+  text(ctx, '歷史參照：千葉市美術館藏《恋の睦言四十八手》（1679）',
+    70, noteY + 76, 22, palette.soft);
+  line(ctx, [[68, 665], [1212, 665]], '#697875');
+}
+
+function drawFrame(ctx, seconds) {
+  ctx.drawImage(background, 0, 0);
+  if (seconds < INTRO) {
+    drawIntro(ctx, seconds);
+    return;
+  }
+  const index = Math.floor((seconds - INTRO) / CARD);
+  if (index >= entries.length) {
+    drawOutro(ctx);
+    return;
+  }
+  drawEntry(ctx, entries[index], index, seconds - INTRO - index * CARD, seconds);
+}
+
+const byteString = value => Uint8Array.from(value, char => char.charCodeAt(0));
+
+function words(values, size) {
+  const result = new Uint8Array(values.length * size);
+  const view = new DataView(result.buffer);
+  values.forEach((value, index) => {
+    if (size === 2) view.setUint16(index * size, value);
+    else view.setUint32(index * size, value);
+  });
+  return result;
+}
+
+const u16 = (...values) => words(values, 2);
+const u32 = (...values) => words(values, 4);
+const zero = count => new Uint8Array(count);
+
+function concat(parts) {
+  const result = new Uint8Array(parts.reduce((sum, part) => sum + part.byteLength, 0));
+  let offset = 0;
+  for (const part of parts) {
+    result.set(part, offset);
+    offset += part.byteLength;
+  }
+  return result;
+}
+
+function box(type, ...parts) {
+  return concat([u32(8 + parts.reduce((sum, part) => sum + part.byteLength, 0)),
+    byteString(type), ...parts]);
+}
+
+function fullBox(type, flags, ...parts) {
+  return box(type, u32(flags), ...parts);
+}
+
+function muxMP4(samples, avcConfig) {
+  const timescale = 24000;
+  const frameDuration = timescale / FPS;
+  const duration = frameDuration * samples.length;
+  const unity = 0x00010000;
+  const matrix = u32(unity, 0, 0, 0, unity, 0, 0, 0, 0x40000000);
+  const geometry = u32(WIDTH * unity, HEIGHT * unity);
+  const ftyp = box('ftyp', byteString('isom'), u32(512), byteString('isomiso2avc1mp41'));
+  const sync = samples.flatMap((sample, index) => sample.key ? [index + 1] : []);
+
+  // One contiguous video chunk with constant frame durations and no reordering.
+  const avc1 = box('avc1', zero(6), u16(1), zero(16), u16(WIDTH, HEIGHT),
+    u32(0x00480000, 0x00480000, 0), u16(1), zero(32), u16(24, 0xffff),
+    box('avcC', avcConfig));
+  const stsd = fullBox('stsd', 0, u32(1), avc1);
+  const stts = fullBox('stts', 0, u32(1, samples.length, frameDuration));
+  const stsc = fullBox('stsc', 0, u32(1, 1, samples.length, 1));
+  const stsz = fullBox('stsz', 0, u32(0, samples.length),
+    words(samples.map(sample => sample.data.byteLength), 4));
+  const stss = fullBox('stss', 0, u32(sync.length), words(sync, 4));
+  const dinf = box('dinf', fullBox('dref', 0, u32(1), fullBox('url ', 1)));
+  const vmhd = fullBox('vmhd', 1, zero(8));
+  const mdhd = fullBox('mdhd', 0, u32(0, 0, timescale, duration), u16(0x7fff, 0));
+  const hdlr = fullBox('hdlr', 0, u32(0), byteString('vide'), zero(12),
+    byteString('Canvas Video'), zero(1));
+  const tkhd = fullBox('tkhd', 7, u32(0, 0, 1, 0, duration),
+    zero(16), matrix, geometry);
+  const mvhd = fullBox('mvhd', 0, u32(0, 0, timescale, duration, unity),
+    u16(0x0100), zero(10), matrix, zero(24), u32(2));
+
+  const movie = offset => {
+    const stbl = box('stbl', stsd, stts, stss, stsc, stsz,
+      fullBox('stco', 0, u32(1, offset)));
+    const mdia = box('mdia', mdhd, hdlr, box('minf', vmhd, dinf, stbl));
+    return box('moov', mvhd, box('trak', tkhd, mdia));
+  };
+  const moov = movie(ftyp.byteLength + movie(0).byteLength + 8);
+  const dataLength = samples.reduce((sum, sample) => sum + sample.data.byteLength, 0);
+  return new Blob([ftyp, moov, u32(dataLength + 8), byteString('mdat'),
+    ...samples.map(sample => sample.data)], {type:'video/mp4'});
+}
+
+async function exportFilm({onProgress = () => {}} = {}) {
+  if (!window.VideoEncoder || !window.VideoFrame) {
+    throw new Error('此瀏覽器未提供逐幀編碼功能，請使用已附的 MP4。');
+  }
+  const config = {
+    codec:'avc1.42001f', width:WIDTH, height:HEIGHT,
+    framerate:FPS, bitrate:2_300_000, hardwareAcceleration:'prefer-software',
+    latencyMode:'realtime', avc:{format:'avc'}
+  };
+  const support = await VideoEncoder.isConfigSupported(config);
+  if (!support.supported) {
+    throw new Error('此瀏覽器不支援 H.264 編碼，請使用已附的 MP4。');
+  }
+  await document.fonts.ready;
+  const capture = document.createElement('canvas');
+  capture.width = WIDTH;
+  capture.height = HEIGHT;
+  const ctx = capture.getContext('2d', {alpha:false});
+  const samples = [];
+  let avcConfig;
+  let failure;
+  const encoder = new VideoEncoder({
+    output(chunk, metadata) {
+      if (!avcConfig && metadata.decoderConfig?.description) {
+        avcConfig = new Uint8Array(metadata.decoderConfig.description).slice();
+      }
+      const data = new Uint8Array(chunk.byteLength);
+      chunk.copyTo(data);
+      samples.push({data, key:chunk.type === 'key', timestamp:chunk.timestamp});
+    },
+    error(error) { failure = error; }
+  });
+  try {
+    encoder.configure(config);
+    onProgress(0, TOTAL_FRAMES);
+    for (let frameIndex = 0; frameIndex < TOTAL_FRAMES; frameIndex++) {
+      if (failure) throw failure;
+      while (encoder.encodeQueueSize > 7 && !failure) {
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
+      if (failure) throw failure;
+      const seconds = frameIndex / FPS;
+      drawFrame(ctx, seconds);
+      const timestamp = Math.round(seconds * 1e6);
+      const duration = Math.round((frameIndex + 1) * 1e6 / FPS) - timestamp;
+      const frame = new VideoFrame(capture, {timestamp, duration});
+      try {
+        const chapterStart = frameIndex >= INTRO * FPS &&
+          (frameIndex - INTRO * FPS) % (CARD * FPS) === 0;
+        encoder.encode(frame, {keyFrame:frameIndex === 0 || chapterStart});
+      } finally {
+        frame.close();
+      }
+      if ((frameIndex + 1) % FPS === 0) onProgress(frameIndex + 1, TOTAL_FRAMES);
+    }
+    await encoder.flush();
+    if (failure) throw failure;
+    if (!avcConfig || samples.length !== TOTAL_FRAMES ||
+        samples.some((sample, index) => sample.timestamp !== Math.round(index * 1e6 / FPS))) {
+      throw new Error('輸出影格的數量或時間軸異常。');
+    }
+    return muxMP4(samples, avcConfig);
+  } finally {
+    if (encoder.state !== 'closed') encoder.close();
+  }
+}
+
+const canvas = document.querySelector('#film');
+const ctx = canvas.getContext('2d', {alpha:false});
+const playButton = document.querySelector('#play');
+const position = document.querySelector('#position');
+const time = document.querySelector('#time');
+const chapters = document.querySelector('#chapters');
+const exportButton = document.querySelector('#export');
+const status = document.querySelector('#export-status');
+let playedSeconds = 0;
+let animationFrame;
+let playbackOrigin;
+
+function timestamp(seconds) {
+  return `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2,'0')}`;
+}
+
+function seekFilm(seconds) {
+  playedSeconds = clamp(seconds, 0, DURATION);
+  const frame = Math.min(Math.floor(playedSeconds * FPS), TOTAL_FRAMES - 1);
+  drawFrame(ctx, frame / FPS);
+  position.value = playedSeconds;
+  time.value = `${timestamp(playedSeconds)} / ${timestamp(DURATION)}`;
+  const section = playedSeconds < INTRO
+    ? 0
+    : Math.min(Math.floor((playedSeconds - INTRO) / CARD) + 1, entries.length + 1);
+  chapters.selectedIndex = section;
+}
+
+function pause() {
+  cancelAnimationFrame(animationFrame);
+  animationFrame = undefined;
+  playButton.textContent = '播放';
+}
+
+function tick(now) {
+  seekFilm((now - playbackOrigin) / 1000);
+  if (playedSeconds < DURATION) animationFrame = requestAnimationFrame(tick);
+  else pause();
+}
+
+function movePlayhead(seconds) {
+  seekFilm(seconds);
+  if (animationFrame !== undefined) playbackOrigin = performance.now() - playedSeconds * 1000;
+}
+
+position.max = DURATION;
+const options = [new Option('片頭', 0)];
+entries.forEach((entry, index) => {
+  const number = String(index + 1).padStart(2, '0');
+  options.push(new Option(`${number}　${entry.name}`, INTRO + index * CARD));
+});
+options.push(new Option('片尾與來源', DURATION - OUTRO));
+chapters.replaceChildren(...options);
+
+playButton.addEventListener('click', () => {
+  if (animationFrame !== undefined) {
+    pause();
+    return;
+  }
+  if (playedSeconds >= DURATION) seekFilm(0);
+  playbackOrigin = performance.now() - playedSeconds * 1000;
+  playButton.textContent = '暫停';
+  animationFrame = requestAnimationFrame(tick);
+});
+position.addEventListener('input', () => movePlayhead(Number(position.value)));
+chapters.addEventListener('change', () => movePlayhead(Number(chapters.value)));
+exportButton.addEventListener('click', async () => {
+  pause();
+  exportButton.disabled = true;
+  status.textContent = '正在渲染影格…';
+  try {
+    const video = await exportFilm({
+      onProgress(done, count) {
+        status.textContent = `已提交影格 ${done.toLocaleString()} / ${count.toLocaleString()}`;
+      }
+    });
+    const url = URL.createObjectURL(video);
+    const download = document.createElement('a');
+    download.href = url;
+    download.download = 'edo-48.mp4';
+    download.click();
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    status.textContent = 'MP4 已完成。';
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    exportButton.disabled = false;
+  }
+});
+
+window.seekFilm = seekFilm;
+window.exportFilm = exportFilm;
+window.filmInfo = {duration:DURATION, frameRate:FPS, frameCount:TOTAL_FRAMES};
+seekFilm(0);
+document.fonts.ready.then(() => seekFilm(playedSeconds));
+
+</script>
+</body>
+</html>
